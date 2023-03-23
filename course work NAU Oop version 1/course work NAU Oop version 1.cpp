@@ -284,7 +284,7 @@ void choice(PriceList& priceList)
 		break;
 	}
 	case 6:
-		break;
+		exit(6);
 	default:
 		cout << "Error! Try again!" << endl;
 		break;
