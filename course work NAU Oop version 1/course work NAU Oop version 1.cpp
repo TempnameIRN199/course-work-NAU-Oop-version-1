@@ -11,6 +11,7 @@
 #include <sstream>
 #include <vector>
 #include <algorithm>
+#include <cstdlib>
 using namespace std;
 
 // Создание базы данных на ООП
@@ -39,6 +40,7 @@ private:
 	int speed;
 	int price;
 	string date;
+	int num;
 public:
 	DataBase() {
 		name = " ";
@@ -47,14 +49,16 @@ public:
 		speed = 0;
 		price = 0;
 		date = " ";
+		num = 0;
 	}
-	DataBase(string name, string firm, string model, int speed, int price, string date) {
+	DataBase(string name, string firm, string model, int speed, int price, string date, int num) {
 		this->name = name;
 		this->firm = firm;
 		this->model = model;
 		this->speed = speed;
 		this->price = price;
 		this->date = date;
+		this->num = num;
 	}
 	~DataBase() {}
 	void setName(string name) {
@@ -119,6 +123,7 @@ public:
 	void printToFile() {
 		ofstream fout;
 		fout.open("PriceList.txt", ios::app);
+		
 		fout << "Name" << setw(15) << "Firm" << setw(15) << "Model" << setw(15) << "Speed" << setw(15) << "Price" << setw(15) << "Date" << endl;
 		for (int i = 0; i < list.size(); i++)
 		{
@@ -135,18 +140,11 @@ public:
 		if (fin.is_open())
 		{
 			fin.seekg(80);
-			while (fin >> name >> firm >> model >> speed >> price >> date)
+			while (fin >> name >> firm >> model >> speed >> price >> date )
 			{
 				list.push_back(DataBase(name, firm, model, speed, price, date));
 			}
 		}
-
-		/*	fin >> name >> firm >> model >> speed >> price >> date;
-			DataBase data(name, firm, model, speed, price, date);
-			list.push_back(data);*/
-
-
-
 		fin.close();
 	}
 };
@@ -221,7 +219,8 @@ void choice(PriceList& priceList)
 	cout << "3. Print data to file" << endl;
 	cout << "4. Read data from file" << endl;
 	cout << "5. Sort data" << endl;
-	cout << "6. Exit" << endl;
+	cout << "6. Delete data" << endl;
+	cout << "7. Exit" << endl;
 	cout << "Enter your choice: ";
 	cin >> choice;
 	switch (choice)
@@ -268,7 +267,7 @@ void choice(PriceList& priceList)
 	case 4:
 	{
 		system("cls");
-		priceList.readFromFile(); // не работает	
+		priceList.readFromFile();
 		priceList.print();
 		system("pause");
 		system("cls");
@@ -283,7 +282,18 @@ void choice(PriceList& priceList)
 		system("cls");
 		break;
 	}
-	case 6:
+	/*case 6:
+	{
+		system("cls");
+		int index;
+		cout << "Enter index: ";
+		cin >> index;
+		priceList.remove(index);
+		system("pause");
+		system("cls");
+		break;
+	}*/
+	case 7:
 		exit(6);
 	default:
 		cout << "Error! Try again!" << endl;
