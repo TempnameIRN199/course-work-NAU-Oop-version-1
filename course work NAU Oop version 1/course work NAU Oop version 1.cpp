@@ -1,5 +1,6 @@
 ﻿#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
+#include <istream>
 #include <ctime>
 #include <stdlib.h>
 #include <iomanip>
@@ -14,21 +15,8 @@
 #include <cstdlib>
 using namespace std;
 
-// Создание базы данных на ООП
-
-// Структура:
-// Прайс-лист WIFI-адаптеров в магазине: фирма -производитель, модель, скорость WIFI в Мбит /с, цена, дата поставки
-// Параметры сортировки:
-// за падением скорости
-// Выбор данных по условию
-// запись данных в файл и чтение из файла
-
-// Классы:
-// 1. База данных
-// 2. Прайс-лист
-// 3. Сортировка
-// 4. Выбор данных по условию
-// 5. Запись данных в файл и чтение из файла
+string str = "Name           Firm          Model          Speed          Price           Date";
+string str2 = "Name           Firm          Model          Speed          Price           Date";
 
 // Класс базы данных
 class DataBase
@@ -40,7 +28,6 @@ private:
 	int speed;
 	int price;
 	string date;
-	int num;
 public:
 	DataBase() {
 		name = " ";
@@ -49,16 +36,14 @@ public:
 		speed = 0;
 		price = 0;
 		date = " ";
-		num = 0;
 	}
-	DataBase(string name, string firm, string model, int speed, int price, string date, int num) {
+	DataBase(string name, string firm, string model, int speed, int price, string date) {
 		this->name = name;
 		this->firm = firm;
 		this->model = model;
 		this->speed = speed;
 		this->price = price;
 		this->date = date;
-		this->num = num;
 	}
 	~DataBase() {}
 	void setName(string name) {
@@ -120,33 +105,83 @@ public:
 			cout << list[i].getName() << setw(15) << list[i].getFirm() << setw(15) << list[i].getModel() << setw(15) << list[i].getSpeed() << setw(15) << list[i].getPrice() << setw(15) << list[i].getDate() << endl;
 		}
 	}
+	bool findN(string& str) {
+		for (char c : str) {
+			if (c == 'N') {
+				return true;
+			}
+		}
+		return false;
+	}
 	void printToFile() {
 		ofstream fout;
+		char c;
 		fout.open("PriceList.txt", ios::app);
-		
-		fout << "Name" << setw(15) << "Firm" << setw(15) << "Model" << setw(15) << "Speed" << setw(15) << "Price" << setw(15) << "Date" << endl;
+		fout.seekp(0);
+		// цикл отвечает за вывод заголовка в файл по условию : если в файле нет заголовка, то он выводится
+		if (fout.is_open())
+		{
+			fout.seekp(0);
+			while (fout >> c)
+			{
+				if (c == 'N') {
+					break;
+				}
+				else {
+					fout.seekp(0);
+					fout << str << endl;
+					break;
+				}
+			}
+		}
 		for (int i = 0; i < list.size(); i++)
 		{
 			fout << list[i].getName() << setw(15) << list[i].getFirm() << setw(15) << list[i].getModel() << setw(15) << list[i].getSpeed() << setw(15) << list[i].getPrice() << setw(15) << list[i].getDate() << endl;
 		}
 		fout.close();
 	}
+	void printHeader() {
+		ofstream fout;
+		fout.open("PriceList.txt", ios::app);
+		fout << str << endl;
+		fout.close();
+	}
 	void readFromFile() {
-		ifstream fin;
-		fin.open("PriceList.txt");
+		static bool is_file_read = false; // переменная-флаг
+		if (is_file_read) {
+			return; // если файл уже был прочитан, то выходим из функции
+		}
+		ifstream fon;
+		fon.open("PriceList.txt");
 		string name, firm, model, date;
 		int speed, price;
-		string s;
-		if (fin.is_open())
+		if (fon.is_open())
 		{
-			fin.seekg(80);
-			while (fin >> name >> firm >> model >> speed >> price >> date )
+			fon.seekg(80);
+			while (fon >> name >> firm >> model >> speed >> price >> date)
 			{
 				list.push_back(DataBase(name, firm, model, speed, price, date));
 			}
+			is_file_read = true; // меняем значение переменной-флага
 		}
-		fin.close();
+		fon.close();
 	}
+	//void readFromFile() {
+	//	ifstream fon;
+	//	fon.open("PriceList.txt");
+	//	string name, firm, model, date;
+	//	int speed, price;
+	//	if (fon.is_open()) // fin.eof()
+	//	{
+	//		// как сделать так, чтобы при повторном вызову метода информация не дублировалась? - 
+	//		fon.seekg(80);
+	//		while (fon >> name >> firm >> model >> speed >> price >> date)
+	//		{
+	//			list.push_back(DataBase(name, firm, model, speed, price, date));
+	//		}
+	//	}
+	//	fon.close();
+	//}
 };
 
 // Класс сортировка
@@ -219,8 +254,7 @@ void choice(PriceList& priceList)
 	cout << "3. Print data to file" << endl;
 	cout << "4. Read data from file" << endl;
 	cout << "5. Sort data" << endl;
-	cout << "6. Delete data" << endl;
-	cout << "7. Exit" << endl;
+	cout << "6. Exit" << endl;
 	cout << "Enter your choice: ";
 	cin >> choice;
 	switch (choice)
@@ -282,18 +316,7 @@ void choice(PriceList& priceList)
 		system("cls");
 		break;
 	}
-	/*case 6:
-	{
-		system("cls");
-		int index;
-		cout << "Enter index: ";
-		cin >> index;
-		priceList.remove(index);
-		system("pause");
-		system("cls");
-		break;
-	}*/
-	case 7:
+	case 6:
 		exit(6);
 	default:
 		cout << "Error! Try again!" << endl;

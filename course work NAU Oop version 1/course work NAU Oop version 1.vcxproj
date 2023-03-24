@@ -129,6 +129,7 @@
   <ItemGroup>
     <ClCompile Include="course work NAU Oop version 1.cpp" />
     <ClCompile Include="FileName.cpp" />
+    <ClCompile Include="matyuha.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
