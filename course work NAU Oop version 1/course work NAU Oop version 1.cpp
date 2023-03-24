@@ -17,16 +17,6 @@
 using namespace std;
 
 string str = "Name           Firm          Model          Speed          Price           Date";
-string str2 = "Name           Firm          Model          Speed          Price           Date";
-
-namespace my {
-	// перегрузка функции getline
-	std::istream& getline(std::istream& is, std::string& str, char delim) {
-		std::getline(is, str, delim);
-		return is;
-	}
-}
-
 
 // Класс базы данных
 class DataBase
@@ -92,6 +82,14 @@ public:
 	string getDate() {
 		return date;
 	}
+	friend bool operator==(const DataBase& lhs, const DataBase& rhs) {
+		return (lhs.name == rhs.name &&
+			lhs.firm == rhs.firm &&
+			lhs.model == rhs.model &&
+			lhs.speed == rhs.speed &&
+			lhs.price == rhs.price &&
+			lhs.date == rhs.date);
+	}
 };
 
 // Класс прайс-лист
@@ -132,7 +130,7 @@ public:
 			streampos fileSize = fout.tellp();
 			// Если размер файла равен нулю, выводим заголовок
 			if (fileSize == 0) {
-				fout << str << endl;
+				printHeader();
 			}
 			// Выводим данные
 			for (int i = 0; i < list.size(); i++) {
@@ -141,49 +139,33 @@ public:
 			fout.close();
 		}
 	}
-
-	void printHeader() {
+	void printHeader(){
 		ofstream fout;
 		fout.open("PriceList.txt", ios::app);
 		fout << str << endl;
 		fout.close();
 	}
 	void readFromFile() {
-		static bool is_file_read = false; // переменная-флаг
-		if (is_file_read) {
-			return; // если файл уже был прочитан, то выходим из функции
+		ifstream fin("PriceList.txt");
+		if (!fin.is_open()) {
+			cout << "Failed to open file!" << endl;
+			return;
 		}
-		ifstream fon;
-		fon.open("PriceList.txt");
-		string name, firm, model, date;
-		int speed, price;
-		if (fon.is_open())
-		{
-			fon.seekg(80);
-			while (fon >> name >> firm >> model >> speed >> price >> date)
-			{
-				list.push_back(DataBase(name, firm, model, speed, price, date));
+		string line;
+		while (getline(fin, line)) {
+			istringstream iss(line);
+			string name, firm, model, date;
+			int speed, price;
+			if (!(iss >> name >> firm >> model >> speed >> price >> date)) {
+				continue;
 			}
-			is_file_read = true; // меняем значение переменной-флага
+			DataBase db(name, firm, model, speed, price, date);
+			if (find(list.begin(), list.end(), db) == list.end()) {
+				list.push_back(db);
+			}
 		}
-		fon.close();
+		fin.close();
 	}
-	//void readFromFile() {
-	//	ifstream fon;
-	//	fon.open("PriceList.txt");
-	//	string name, firm, model, date;
-	//	int speed, price;
-	//	if (fon.is_open()) // fin.eof()
-	//	{
-	//		// как сделать так, чтобы при повторном вызову метода информация не дублировалась? - 
-	//		fon.seekg(80);
-	//		while (fon >> name >> firm >> model >> speed >> price >> date)
-	//		{
-	//			list.push_back(DataBase(name, firm, model, speed, price, date));
-	//		}
-	//	}
-	//	fon.close();
-	//}
 };
 
 // Класс сортировка
