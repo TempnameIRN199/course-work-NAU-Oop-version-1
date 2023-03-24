@@ -1,10 +1,10 @@
 ﻿#define _CRT_SECURE_NO_WARNINGS
+#define _SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING
 #include <iostream>
 #include <istream>
 #include <ctime>
 #include <stdlib.h>
 #include <iomanip>
-#include <conio.h>
 #include <string>
 #include <string.h>
 #include <ctype.h>
@@ -13,10 +13,20 @@
 #include <vector>
 #include <algorithm>
 #include <cstdlib>
+#include <filesystem>
 using namespace std;
 
 string str = "Name           Firm          Model          Speed          Price           Date";
 string str2 = "Name           Firm          Model          Speed          Price           Date";
+
+namespace my {
+	// перегрузка функции getline
+	std::istream& getline(std::istream& is, std::string& str, char delim) {
+		std::getline(is, str, delim);
+		return is;
+	}
+}
+
 
 // Класс базы данных
 class DataBase
@@ -115,31 +125,23 @@ public:
 	}
 	void printToFile() {
 		ofstream fout;
-		char c;
 		fout.open("PriceList.txt", ios::app);
-		fout.seekp(0);
-		// цикл отвечает за вывод заголовка в файл по условию : если в файле нет заголовка, то он выводится
-		if (fout.is_open())
-		{
-			fout.seekp(0);
-			while (fout >> c)
-			{
-				if (c == 'N') {
-					break;
-				}
-				else {
-					fout.seekp(0);
-					fout << str << endl;
-					break;
-				}
+		if (fout.is_open()) {
+			// Получаем текущую позицию указателя записи
+			fout.seekp(0, ios::end);
+			streampos fileSize = fout.tellp();
+			// Если размер файла равен нулю, выводим заголовок
+			if (fileSize == 0) {
+				fout << str << endl;
 			}
+			// Выводим данные
+			for (int i = 0; i < list.size(); i++) {
+				fout << list[i].getName() << setw(15) << list[i].getFirm() << setw(15) << list[i].getModel() << setw(15) << list[i].getSpeed() << setw(15) << list[i].getPrice() << setw(15) << list[i].getDate() << endl;
+			}
+			fout.close();
 		}
-		for (int i = 0; i < list.size(); i++)
-		{
-			fout << list[i].getName() << setw(15) << list[i].getFirm() << setw(15) << list[i].getModel() << setw(15) << list[i].getSpeed() << setw(15) << list[i].getPrice() << setw(15) << list[i].getDate() << endl;
-		}
-		fout.close();
 	}
+
 	void printHeader() {
 		ofstream fout;
 		fout.open("PriceList.txt", ios::app);
