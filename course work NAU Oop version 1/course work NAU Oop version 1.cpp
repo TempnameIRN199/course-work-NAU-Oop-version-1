@@ -139,12 +139,36 @@ public:
 			fout.close();
 		}
 	}
-	void printHeader(){
+	void printHeader() {
 		ofstream fout;
 		fout.open("PriceList.txt", ios::app);
 		fout << str << endl;
 		fout.close();
 	}
+	//void readFromFile() {
+	//	ifstream fon;
+	//	fon.open("PriceList.txt");
+	//	string name, firm, model, date;
+	//	int speed, price;
+	//	if (fon.is_open())
+	//	{
+	//		fon.seekg(80);
+	//		while (fon >> name >> firm >> model >> speed >> price >> date)
+	//		{
+	//			list.push_back(DataBase(name, firm, model, speed, price, date));
+	//		}
+	//	}
+	//	name.clear();
+	//	firm.clear();
+	//	model.clear();
+	//	date.clear();
+	//	name.clear();
+	//	speed = 0;
+	//	price = 0;
+	//	fon.close();
+	//	fon.clear();
+	//}
+
 	void readFromFile() {
 		ifstream fin("PriceList.txt");
 		if (!fin.is_open()) {
@@ -156,7 +180,8 @@ public:
 			istringstream iss(line);
 			string name, firm, model, date;
 			int speed, price;
-			if (!(iss >> name >> firm >> model >> speed >> price >> date)) {
+			if (!(iss >> name >> firm >> model >> speed >> price >> date))
+			{
 				continue;
 			}
 			DataBase db(name, firm, model, speed, price, date);
@@ -164,6 +189,7 @@ public:
 				list.push_back(db);
 			}
 		}
+		fin.clear();
 		fin.close();
 	}
 };
@@ -182,18 +208,102 @@ public:
 	void add(DataBase data) {
 		list.push_back(data);
 	}
-	void sortSpeed() {
-		for (int i = 0; i < list.size() - 1; i++)
+
+	// Сортировка по возрастанию скорост
+	void sortSpeed()
+	{
+		for (int i = 0; i < list.size(); i++)
 		{
-			for (int j = 0; j < list.size() - i - 1; j++)
+			for (int j = 0; j < list.size() - 1; j++)
 			{
-				if (list[j].getSpeed() < list[j + 1].getSpeed())
-				{
+				if (list[j].getSpeed() > list[j + 1].getSpeed()) {
 					swap(list[j], list[j + 1]);
 				}
 			}
 		}
 	}
+
+	// Сортировка по возрастанию цены
+	void sortPrice() {
+		for (int i = 0; i < list.size(); i++)
+		{
+			for (int j = 0; j < list.size() - 1; j++)
+			{
+				if (list[j].getPrice() > list[j + 1].getPrice()) {
+					swap(list[j], list[j + 1]);
+				}
+			}
+		}
+	}
+
+	// Сортировка по возрастанию даты
+	void sortDate() {
+		for (int i = 0; i < list.size(); i++)
+		{
+			for (int j = 0; j < list.size() - 1; j++)
+			{
+				if (list[j].getDate() > list[j + 1].getDate()) {
+					swap(list[j], list[j + 1]);
+				}
+			}
+		}
+	}
+
+	// Сортировка по имени в алфавитном порядке
+	void sortName()
+	{
+		for (int i = 0; i < list.size(); i++)
+		{
+			for (int j = 0; j < list.size() - 1; j++)
+			{
+				if (list[j].getName() > list[j + 1].getName()) {
+					swap(list[j], list[j + 1]);
+				}
+			}
+		}
+	}
+
+	// Сортировка по фирме в алфавитном порядке
+	void sortFirm()
+	{
+		for (int i = 0; i < list.size(); i++)
+		{
+			for (int j = 0; j < list.size() - 1; j++)
+			{
+				if (list[j].getFirm() > list[j + 1].getFirm()) {
+					swap(list[j], list[j + 1]);
+				}
+			}
+		}
+	}
+
+	// Сортировка по модели в алфавитном порядке
+	void sortModel()
+	{
+		for (int i = 0; i < list.size(); i++)
+		{
+			for (int j = 0; j < list.size() - 1; j++)
+			{
+				if (list[j].getModel() > list[j + 1].getModel()) {
+					swap(list[j], list[j + 1]);
+				}
+			}
+		}
+	}
+
+	// Сортировка по спаду скорости
+	void sortSpeedDown() {
+		for (int i = 0; i < list.size(); i++)
+		{
+			for (int j = 0; j < list.size() - 1; j++)
+			{
+				if (list[j].getSpeed() < list[j + 1].getSpeed()) {
+					swap(list[j], list[j + 1]);
+				}
+			}
+		}
+	}
+
 	void print() {
 		cout << "Name" << setw(15) << "Firm" << setw(15) << "Model" << setw(15) << "Speed" << setw(15) << "Price" << setw(15) << "Date" << endl;
 		for (int i = 0; i < list.size(); i++)
@@ -213,7 +323,8 @@ void choiceSort(PriceList& priceList, Sort& sort)
 	cout << "4. Sort by name" << endl;
 	cout << "5. Sort by firm" << endl;
 	cout << "6. Sort by model" << endl;
-	cout << "7. Exit" << endl;
+	cout << "7. Sort by speed drop" << endl;
+	cout << "8. Exit" << endl;
 	cout << "Enter your choice: ";
 	cin >> choice;
 	if (choice == 1) {
@@ -223,6 +334,53 @@ void choiceSort(PriceList& priceList, Sort& sort)
 		}
 		sort.sortSpeed();
 		sort.print();
+	}
+	else if (choice == 2) {
+		for (int i = 0; i < priceList.getList().size(); i++)
+		{
+			sort.add(priceList.getList()[i]);
+		}
+		sort.sortPrice();
+		sort.print();
+	}
+	else if (choice == 3) {
+		for (int i = 0; i < priceList.getList().size(); i++)
+		{
+			sort.add(priceList.getList()[i]);
+		}
+		sort.sortDate();
+		sort.print();
+	}
+	else if (choice == 4) {
+		for (int i = 0; i < priceList.getList().size(); i++) {
+			sort.add(priceList.getList()[i]);
+		}
+		sort.sortName();
+		sort.print();
+	}
+	else if (choice == 5) {
+		for (int i = 0; i < priceList.getList().size(); i++) {
+			sort.add(priceList.getList()[i]);
+		}
+		sort.sortFirm();
+		sort.print();
+	}
+	else if (choice == 6){
+		for (int i = 0; i < priceList.getList().size(); i++) {
+			sort.add(priceList.getList()[i]);
+		}
+		sort.sortModel();
+		sort.print();
+	}
+	else if (choice == 7) {
+		for (int i = 0; i < priceList.getList().size(); i++) {
+			sort.add(priceList.getList()[i]);
+		}
+		sort.sortSpeedDown();
+		sort.print();
+	}
+	else if (choice == 8) {
+		return;
 	}
 	else {
 		cout << "Error! Try again!" << endl;
