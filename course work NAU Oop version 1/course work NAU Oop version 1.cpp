@@ -145,30 +145,6 @@ public:
 		fout << str << endl;
 		fout.close();
 	}
-	//void readFromFile() {
-	//	ifstream fon;
-	//	fon.open("PriceList.txt");
-	//	string name, firm, model, date;
-	//	int speed, price;
-	//	if (fon.is_open())
-	//	{
-	//		fon.seekg(80);
-	//		while (fon >> name >> firm >> model >> speed >> price >> date)
-	//		{
-	//			list.push_back(DataBase(name, firm, model, speed, price, date));
-	//		}
-	//	}
-	//	name.clear();
-	//	firm.clear();
-	//	model.clear();
-	//	date.clear();
-	//	name.clear();
-	//	speed = 0;
-	//	price = 0;
-	//	fon.close();
-	//	fon.clear();
-	//}
-
 	void readFromFile() {
 		ifstream fin("PriceList.txt");
 		if (!fin.is_open()) {
@@ -248,7 +224,7 @@ public:
 			}
 		}
 	}
-
+	 
 	// Сортировка по имени в алфавитном порядке
 	void sortName()
 	{
@@ -313,6 +289,78 @@ public:
 			cout << list[i].getName() << setw(15) << list[i].getFirm() << setw(15) << list[i].getModel() << setw(15) << list[i].getSpeed() << setw(15) << list[i].getPrice() << setw(15) << list[i].getDate() << endl;
 		}
 	}
+};
+
+// класс поиска данных в базе за заданными параметрами
+class Search
+{
+private:
+	vector<DataBase> list;
+	public:
+		Search() {}
+		~Search() {}
+		void add(DataBase data) {
+			list.push_back(data);
+		}
+		vector<DataBase> getList() {
+			return this->list;
+		}
+		void searchName(string name) {
+			for (int i = 0; i < list.size(); i++)
+			{
+				if (list[i].getName() == name) {
+					cout << list[i].getName() << setw(15) << list[i].getFirm() << setw(15) << list[i].getModel() << setw(15) << list[i].getSpeed() << setw(15) << list[i].getPrice() << setw(15) << list[i].getDate() << endl;
+				}
+			}
+		}
+		void searchFirm(string firm) {
+			for (int i = 0; i < list.size(); i++)
+			{
+				if (list[i].getFirm() == firm) {
+					cout << list[i].getName() << setw(15) << list[i].getFirm() << setw(15) << list[i].getModel() << setw(15) << list[i].getSpeed() << setw(15) << list[i].getPrice() << setw(15) << list[i].getDate() << endl;
+				}
+			}
+		}
+		void searchModel(string model) {
+			for (int i = 0; i < list.size(); i++)
+			{
+				if (list[i].getModel() == model) {
+					cout << list[i].getName() << setw(15) << list[i].getFirm() << setw(15) << list[i].getModel() << setw(15) << list[i].getSpeed() << setw(15) << list[i].getPrice() << setw(15) << list[i].getDate() << endl;
+				}
+			}
+		}
+		void searchSpeed(int speed) {
+			for (int i = 0; i < list.size(); i++)
+			{
+				if (list[i].getSpeed() == speed) {
+					cout << list[i].getName() << setw(15) << list[i].getFirm() << setw(15) << list[i].getModel() << setw(15) << list[i].getSpeed() << setw(15) << list[i].getPrice() << setw(15) << list[i].getDate() << endl;
+				}
+			}
+		}
+		void searchPrice(int price) {
+			for (int i = 0; i < list.size(); i++)
+			{
+				if (list[i].getPrice() == price) {
+					cout << list[i].getName() << setw(15) << list[i].getFirm() << setw(15) << list[i].getModel() << setw(15) << list[i].getSpeed() << setw(15) << list[i].getPrice() << setw(15) << list[i].getDate() << endl;
+				}
+			}
+		}
+		void searchDate(string date) {
+			for (int i = 0; i < list.size(); i++)
+			{
+				if (list[i].getDate() == date) {
+					cout << list[i].getName() << setw(15) << list[i].getFirm() << setw(15) << list[i].getModel() << setw(15) << list[i].getSpeed() << setw(15) << list[i].getPrice() << setw(15) << list[i].getDate() << endl;
+				}
+			}
+		}
+		void searchSpeedDown(int speed) {
+			for (int i = 0; i < list.size(); i++)
+			{
+				if (list[i].getSpeed() > speed) {
+					cout << list[i].getName() << setw(15) << list[i].getFirm() << setw(15) << list[i].getModel() << setw(15) << list[i].getSpeed() << setw(15) << list[i].getPrice() << setw(15) << list[i].getDate() << endl;
+				}
+			}
+		}
 };
 
 // Выбор данных для сортировки
@@ -389,6 +437,69 @@ void choiceSort(PriceList& priceList, Sort& sort)
 	}
 }
 
+void choiceSearch(PriceList& priceList, Search& search)
+{
+	int choice;
+	cout << "1. Search by name" << endl;
+	cout << "2. Search by firm" << endl;
+	cout << "3. Search by model" << endl;
+	cout << "4. Search by speed" << endl;
+	cout << "5. Search by price" << endl;
+	cout << "6. Search by date" << endl;
+	cout << "7. Search by speed drop" << endl;
+	cout << "8. Exit" << endl;
+	cout << "Enter your choice: ";
+	cin >> choice;
+	if (choice == 1) {
+		string name;
+		cout << "Enter name: ";
+		cin >> name;
+		search.searchName(name);
+	}
+	else if (choice == 2) {
+		string firm;
+		cout << "Enter firm: ";
+		cin >> firm;
+		search.searchFirm(firm);
+	}
+	else if (choice == 3) {
+		string model;
+		cout << "Enter model: ";
+		cin >> model;
+		search.searchModel(model);
+	}
+	else if (choice == 4) {
+		int speed;
+		cout << "Enter speed: ";
+		cin >> speed;
+		search.searchSpeed(speed);
+	}
+	else if (choice == 5) {
+		int price;
+		cout << "Enter price: ";
+		cin >> price;
+		search.searchPrice(price);
+	}
+	else if (choice == 6) {
+		string date;
+		cout << "Enter date: ";
+		cin >> date;
+		search.searchDate(date);
+	}
+	else if (choice == 7) {
+		int speed;
+		cout << "Enter speed: ";
+		cin >> speed;
+		search.searchSpeedDown(speed);
+	}
+	else if (choice == 8) {
+		return;
+	}
+	else {
+		cout << "Error! Try again!" << endl;
+	}
+}
+
 // Выбор действия
 void choice(PriceList& priceList)
 {
@@ -398,7 +509,8 @@ void choice(PriceList& priceList)
 	cout << "3. Print data to file" << endl;
 	cout << "4. Read data from file" << endl;
 	cout << "5. Sort data" << endl;
-	cout << "6. Exit" << endl;
+	cout << "6. Search data" << endl;
+	cout << "7. Exit" << endl;
 	cout << "Enter your choice: ";
 	cin >> choice;
 	switch (choice)
@@ -461,7 +573,16 @@ void choice(PriceList& priceList)
 		break;
 	}
 	case 6:
-		exit(6);
+	{
+		system("cls");
+		Search search;
+		choiceSearch(priceList, search);
+		system("pause");
+		system("cls");
+		break;
+	}
+	case 7:
+		exit(7);
 	default:
 		cout << "Error! Try again!" << endl;
 		system("cls");
