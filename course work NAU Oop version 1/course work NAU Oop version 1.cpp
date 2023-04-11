@@ -304,6 +304,8 @@ public:
 		}
 	}
 
+	// сортировка 
+
 	void print() {
 		cout << "Name" << setw(15) << "Firm" << setw(15) << "Model" << setw(15) << "Speed" << setw(15) << "Price" << setw(15) << "Date" << endl;
 		for (int i = 0; i < list.size(); i++)
@@ -462,6 +464,7 @@ void choice(PriceList& priceList)
 		exit(6);
 	default:
 		cout << "Error! Try again!" << endl;
+		system("cls");
 		break;
 	}
 }
