@@ -18,6 +18,263 @@ using namespace std;
 
 string str = "Name           Firm          Model          Speed          Price           Date";
 
+class DynArr
+{
+private:
+	int* arr;
+	int size;
+public:
+	DynArr() {
+		arr = new int[0];
+		size = 0;
+	}
+	DynArr(int* arr, int size) {
+		this->arr = new int[size];
+		for (int i = 0; i < size; i++)
+		{
+			this->arr[i] = arr[i];
+		}
+		this->size = size;
+	}
+	~DynArr() {
+		delete[] arr;
+	}
+	void setArr(int* arr) {
+		this->arr = arr;
+	}
+	void setSize(int size) {
+		this->size = size;
+	}
+	int* getArr() {
+		return arr;
+	}
+	int getSize() {
+		return size;
+	}
+	void Create() {
+		cout << "Enter size of array: ";
+		cin >> size;
+		arr = new int[size];
+		for (int i = 0; i < size; i++)
+		{
+			cout << "Enter " << i + 1 << " element: ";
+			cin >> arr[i];
+		}
+	}
+	void Print() {
+		for (int i = 0; i < size; i++)
+		{
+			cout << arr[i] << " ";
+		}
+		cout << endl;
+	}
+	void Sort() {
+		for (int i = 0; i < size; i++)
+		{
+			for (int j = 0; j < size - 1; j++)
+			{
+				if (arr[j] > arr[j + 1])
+				{
+					int temp = arr[j];
+					arr[j] = arr[j + 1];
+					arr[j + 1] = temp;
+				}
+			}
+		}
+	}
+	void CheckSort() {
+		for (int i = 0; i < size - 1; i++)
+		{
+			if (arr[i] > arr[i + 1])
+			{
+				cout << "Array is not sorted" << endl;
+				return;
+			}
+		}
+	}
+	void Menu() {
+		int choice;
+		do
+		{
+			cout << "1. Create array" << endl;
+			cout << "2. Print array" << endl;
+			cout << "3. Sort array" << endl;
+			cout << "4. Check sort" << endl;
+			cout << "5. Exit" << endl;
+			cout << "Enter your choice: ";
+			cin >> choice;
+			switch (choice)
+			{
+			case 1:
+				system("cls");
+				Create();
+				system("pause");
+				system("cls");
+				break;
+			case 2:
+				system("cls");
+				Print();
+				system("pause");
+				system("cls");
+				break;
+			case 3:
+				system("cls");
+				Sort();
+				system("pause");
+				system("cls");
+				break;
+			case 4:
+				system("cls");
+				CheckSort();
+				system("pause");
+				system("cls");
+				break;
+			case 5:
+				break;
+			default:
+				cout << "Wrong choice" << endl;
+				break;
+			}
+		} while (choice != 5);
+	}
+};
+
+class DynArr2
+{
+private:
+	int** arr;
+	int size;
+public:
+	DynArr2() {
+		arr = new int* [0];
+		size = 0;
+	}
+	DynArr2(int** arr, int size) {
+		this->arr = new int* [size];
+		for (int i = 0; i < size; i++)
+		{
+			this->arr[i] = new int[size];
+			for (int j = 0; j < size; j++)
+			{
+				this->arr[i][j] = arr[i][j];
+			}
+		}
+		this->size = size;
+	}
+	~DynArr2() {
+		for (int i = 0; i < size; i++)
+		{
+			delete[] arr[i];
+		}
+		delete[] arr;
+	}
+	void setArr(int** arr) {
+		this->arr = arr;
+	}
+	void setSize(int size) {
+		this->size = size;
+	}
+	int** getArr() {
+		return arr;
+	}
+	int getSize() {
+		return size;
+	}
+	void Create() {
+		cout << "Enter size of array: ";
+		cin >> size;
+		arr = new int* [size];
+		for (int i = 0; i < size; i++)
+		{
+			arr[i] = new int[size];
+			for (int j = 0; j < size; j++)
+			{
+				cout << "Enter " << i + 1 << " element: ";
+				cin >> arr[i][j];
+			}
+		}
+	}
+	void Print() {
+		for (int i = 0; i < size; i++)
+		{
+			for (int j = 0; j < size; j++)
+			{
+				cout << arr[i][j] << " ";
+			}
+			cout << endl;
+		}
+	}
+	void Sort() {
+		for (int i = 0; i < size; i++)
+		{
+			for (int j = 0; j < size - 1; j++)
+			{
+				if (arr[j][0] < arr[j + 1][0])
+				{
+					int* temp = arr[j];
+					arr[j] = arr[j + 1];
+					arr[j + 1] = temp;
+				}
+			}
+		}
+	}
+	void CheckSort() {
+		for (int i = 0; i < size - 1; i++)
+		{
+			if (arr[i][0] < arr[i + 1][0])
+			{
+				cout << "Array is not sorted" << endl;
+				return;
+			}
+		}
+	}
+	void Menu() {
+		int choice;
+		do
+		{
+			cout << "1. Create array" << endl;
+			cout << "2. Print array" << endl;
+			cout << "3. Sort array" << endl;
+			cout << "4. Check sort" << endl;
+			cout << "5. Exit" << endl;
+			cout << "Enter your choice: ";
+			cin >> choice;
+			switch (choice)
+			{
+			case 1:
+				system("cls");
+				Create();
+				system("pause");
+				system("cls");
+				break;
+			case 2:
+				system("cls");
+				Print();
+				system("pause");
+				system("cls");
+				break;
+			case 3:
+				system("cls");
+				Sort();
+				system("pause");
+				system("cls");
+				break;
+			case 4:
+				system("cls");
+				CheckSort();
+				system("pause");
+				system("cls");
+				break;
+			case 5:
+				return;
+			default:
+				cout << "Wrong choice" << endl;
+				break;
+			}
+		} while (choice != 5);
+	}
+};
+
 // Класс базы данных
 class DataBase
 {
@@ -122,23 +379,39 @@ public:
 		return false;
 	}
 	void printToFile() {
-		ofstream fout;
-		fout.open("PriceList.txt", ios::app);
-		if (fout.is_open()) {
-			// Получаем текущую позицию указателя записи
-			fout.seekp(0, ios::end);
-			streampos fileSize = fout.tellp();
-			// Если размер файла равен нулю, выводим заголовок
-			if (fileSize == 0) {
-				printHeader();
-			}
-			// Выводим данные
-			for (int i = 0; i < list.size(); i++) {
-				fout << list[i].getName() << setw(15) << list[i].getFirm() << setw(15) << list[i].getModel() << setw(15) << list[i].getSpeed() << setw(15) << list[i].getPrice() << setw(15) << list[i].getDate() << endl;
-			}
-			fout.close();
+		// Считываем файл в массив строк
+		ifstream fin("PriceList.txt");
+		vector<string> lines;
+		string line;
+		while (getline(fin, line)) {
+			lines.push_back(line);
 		}
+		fin.close();
+
+		// Открываем файл для записи
+		ofstream fout("PriceList.txt", ios::app);
+		if (!fout.is_open()) {
+			cout << "Failed to open file!" << endl;
+			return;
+		}
+		// Если файл пустой, выводим заголовок
+		if (lines.empty()) {
+			printHeader();
+		}
+
+		// Проверяем, была ли уже запись с такими данными
+		for (int i = 0; i < list.size(); i++) {
+			stringstream ss;
+			ss << list[i].getName() << setw(15) << list[i].getFirm() << setw(15) << list[i].getModel() << setw(15) << list[i].getSpeed() << setw(15) << list[i].getPrice() << setw(15) << list[i].getDate();
+			string newLine = ss.str();
+			if (find(lines.begin(), lines.end(), newLine) == lines.end()) {
+				// Если такой записи еще не было, выводим ее в файл
+				fout << newLine << endl;
+			}
+		}
+		fout.close();
 	}
+
 	void printHeader() {
 		ofstream fout;
 		fout.open("PriceList.txt", ios::app);
@@ -184,7 +457,6 @@ public:
 	void add(DataBase data) {
 		list.push_back(data);
 	}
-
 	// Сортировка по возрастанию скорост
 	void sortSpeed()
 	{
@@ -198,7 +470,6 @@ public:
 			}
 		}
 	}
-
 	// Сортировка по возрастанию цены
 	void sortPrice() {
 		for (int i = 0; i < list.size(); i++)
@@ -211,7 +482,6 @@ public:
 			}
 		}
 	}
-
 	// Сортировка по возрастанию даты
 	void sortDate() {
 		for (int i = 0; i < list.size(); i++)
@@ -224,7 +494,6 @@ public:
 			}
 		}
 	}
-	 
 	// Сортировка по имени в алфавитном порядке
 	void sortName()
 	{
@@ -238,7 +507,6 @@ public:
 			}
 		}
 	}
-
 	// Сортировка по фирме в алфавитном порядке
 	void sortFirm()
 	{
@@ -252,7 +520,6 @@ public:
 			}
 		}
 	}
-
 	// Сортировка по модели в алфавитном порядке
 	void sortModel()
 	{
@@ -266,7 +533,6 @@ public:
 			}
 		}
 	}
-
 	// Сортировка по спаду скорости
 	void sortSpeedDown() {
 		for (int i = 0; i < list.size(); i++)
@@ -279,9 +545,6 @@ public:
 			}
 		}
 	}
-
-	// сортировка 
-
 	void print() {
 		cout << "Name" << setw(15) << "Firm" << setw(15) << "Model" << setw(15) << "Speed" << setw(15) << "Price" << setw(15) << "Date" << endl;
 		for (int i = 0; i < list.size(); i++)
@@ -363,6 +626,17 @@ private:
 		}
 };
 
+// класс для меню
+class Menu
+{
+private:
+	DynArr dynArr;
+	DynArr2 dynarr2;
+	PriceList priceList;
+	Sort sort;
+	Search search;
+};
+
 // Выбор данных для сортировки
 void choiceSort(PriceList& priceList, Sort& sort)
 {
@@ -415,7 +689,7 @@ void choiceSort(PriceList& priceList, Sort& sort)
 		sort.sortFirm();
 		sort.print();
 	}
-	else if (choice == 6){
+	else if (choice == 6) {
 		for (int i = 0; i < priceList.getList().size(); i++) {
 			sort.add(priceList.getList()[i]);
 		}
@@ -437,6 +711,7 @@ void choiceSort(PriceList& priceList, Sort& sort)
 	}
 }
 
+// Выбор данных для поиска
 void choiceSearch(PriceList& priceList, Search& search)
 {
 	int choice;
@@ -501,101 +776,46 @@ void choiceSearch(PriceList& priceList, Search& search)
 }
 
 // Выбор действия
-void choice(PriceList& priceList)
+
+
+/*	PriceList priceList;
+while (true)
 {
-	int choice;
-	cout << "1. Add data" << endl;
-	cout << "2. Print data" << endl;
-	cout << "3. Print data to file" << endl;
-	cout << "4. Read data from file" << endl;
-	cout << "5. Sort data" << endl;
-	cout << "6. Search data" << endl;
-	cout << "7. Exit" << endl;
-	cout << "Enter your choice: ";
-	cin >> choice;
-	switch (choice)
+	choice(priceList);
+}
+return 0;*/
+
+void ChoiceTask() {
+	int n;
+	do
 	{
-	case 1:
-	{
+		cout << "Выберите задание: " << endl;
+		cout << "1. Задание 1" << endl;
+		cout << "2. Задание 2" << endl;
+		cout << "3. Задание 3" << endl;
+		cout << "0. Выход" << endl;
+		cin >> n;
+		switch (n)
+		{
+		case 1:
+
+			break;
+		case 2:
+			break;
+		case 3:
+			break;
+		case 0:
+			break;
+		default:
+			cout << "Неверный ввод" << endl;
+			break;
+		}
+		system("PAUSE");
 		system("cls");
-		string name, firm, model, date;
-		int speed, price;
-		cout << "Enter name: ";
-		cin >> name;
-		cout << "Enter firm: ";
-		cin >> firm;
-		cout << "Enter model: ";
-		cin >> model;
-		cout << "Enter speed: ";
-		cin >> speed;
-		cout << "Enter price: ";
-		cin >> price;
-		cout << "Enter date: ";
-		cin >> date;
-		DataBase data(name, firm, model, speed, price, date);
-		priceList.add(data);
-		system("pause");
-		system("cls");
-		break;
-	}
-	case 2:
-	{
-		system("cls");
-		priceList.print();
-		system("pause");
-		system("cls");
-		break;
-	}
-	case 3:
-	{
-		system("cls");
-		priceList.printToFile();
-		system("pause");
-		system("cls");
-		break;
-	}
-	case 4:
-	{
-		system("cls");
-		priceList.readFromFile();
-		priceList.print();
-		system("pause");
-		system("cls");
-		break;
-	}
-	case 5:
-	{
-		system("cls");
-		Sort sort;
-		choiceSort(priceList, sort);
-		system("pause");
-		system("cls");
-		break;
-	}
-	case 6:
-	{
-		system("cls");
-		Search search;
-		choiceSearch(priceList, search);
-		system("pause");
-		system("cls");
-		break;
-	}
-	case 7:
-		exit(7);
-	default:
-		cout << "Error! Try again!" << endl;
-		system("cls");
-		break;
-	}
+	} while (n != 0);
 }
 
 int main()
 {
-	PriceList priceList;
-	while (true)
-	{
-		choice(priceList);
-	}
-	return 0;
+	setlocale(0, "");
 }
