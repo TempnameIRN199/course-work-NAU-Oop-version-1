@@ -370,14 +370,6 @@ public:
 			cout << list[i].getName() << setw(15) << list[i].getFirm() << setw(15) << list[i].getModel() << setw(15) << list[i].getSpeed() << setw(15) << list[i].getPrice() << setw(15) << list[i].getDate() << endl;
 		}
 	}
-	bool findN(string& str) {
-		for (char c : str) {
-			if (c == 'N') {
-				return true;
-			}
-		}
-		return false;
-	}
 	void printToFile() {
 		// Считываем файл в массив строк
 		ifstream fin("PriceList.txt");
@@ -449,7 +441,8 @@ class Sort
 private:
 	vector<DataBase> list;
 public:
-	vector<DataBase> getList() {
+	vector<DataBase> getList()
+	{
 		return this->list;
 	}
 	Sort() {}
@@ -460,6 +453,23 @@ public:
 	// Сортировка по возрастанию скорост
 	void sortSpeed()
 	{
+		static bool isSorted = false; // флаг, указывающий, отсортирован ли уже список по скорости
+		if (!isSorted) {
+			for (int i = 0; i < list.size(); i++)
+			{
+				for (int j = 0; j < list.size() - 1; j++)
+				{
+					if (list[j].getSpeed() > list[j + 1].getSpeed()) {
+						swap(list[j], list[j + 1]);
+					}
+				}
+			}
+			isSorted = true; // отмечаем, что список отсортирован по скорости
+		}
+	}
+
+	// отсортировать и сделать проверку на наличие в списке уже существующих данных (поиск по скорости) и если есть, то не добавлять
+	void sortSpeedAndCheck() {
 		for (int i = 0; i < list.size(); i++)
 		{
 			for (int j = 0; j < list.size() - 1; j++)
@@ -470,6 +480,9 @@ public:
 			}
 		}
 	}
+
+
+
 	// Сортировка по возрастанию цены
 	void sortPrice() {
 		for (int i = 0; i < list.size(); i++)
@@ -551,6 +564,9 @@ public:
 		{
 			cout << list[i].getName() << setw(15) << list[i].getFirm() << setw(15) << list[i].getModel() << setw(15) << list[i].getSpeed() << setw(15) << list[i].getPrice() << setw(15) << list[i].getDate() << endl;
 		}
+	}
+	void clear() {
+		list.clear();
 	}
 };
 
@@ -635,6 +651,16 @@ private:
 	PriceList priceList;
 	Sort sort;
 	Search search;
+
+public:
+	Menu() {}
+	void MenuDynArr() {
+		int choice;
+		cout << "1. Add data" << endl;
+		cout << "2. Print data" << endl;
+		cout << "3. Exit" << endl;
+
+	}
 };
 
 // Выбор данных для сортировки
@@ -656,8 +682,9 @@ void choiceSort(PriceList& priceList, Sort& sort)
 		{
 			sort.add(priceList.getList()[i]);
 		}
-		sort.sortSpeed();
+		sort.sortSpeedAndCheck();
 		sort.print();
+		sort.clear();
 	}
 	else if (choice == 2) {
 		for (int i = 0; i < priceList.getList().size(); i++)
@@ -666,6 +693,7 @@ void choiceSort(PriceList& priceList, Sort& sort)
 		}
 		sort.sortPrice();
 		sort.print();
+		sort.clear();
 	}
 	else if (choice == 3) {
 		for (int i = 0; i < priceList.getList().size(); i++)
@@ -674,6 +702,7 @@ void choiceSort(PriceList& priceList, Sort& sort)
 		}
 		sort.sortDate();
 		sort.print();
+		sort.clear();
 	}
 	else if (choice == 4) {
 		for (int i = 0; i < priceList.getList().size(); i++) {
@@ -681,6 +710,7 @@ void choiceSort(PriceList& priceList, Sort& sort)
 		}
 		sort.sortName();
 		sort.print();
+		sort.clear();
 	}
 	else if (choice == 5) {
 		for (int i = 0; i < priceList.getList().size(); i++) {
@@ -688,6 +718,7 @@ void choiceSort(PriceList& priceList, Sort& sort)
 		}
 		sort.sortFirm();
 		sort.print();
+		sort.clear();
 	}
 	else if (choice == 6) {
 		for (int i = 0; i < priceList.getList().size(); i++) {
@@ -695,6 +726,7 @@ void choiceSort(PriceList& priceList, Sort& sort)
 		}
 		sort.sortModel();
 		sort.print();
+		sort.clear();
 	}
 	else if (choice == 7) {
 		for (int i = 0; i < priceList.getList().size(); i++) {
@@ -702,6 +734,7 @@ void choiceSort(PriceList& priceList, Sort& sort)
 		}
 		sort.sortSpeedDown();
 		sort.print();
+		sort.clear();
 	}
 	else if (choice == 8) {
 		return;
@@ -776,46 +809,86 @@ void choiceSearch(PriceList& priceList, Search& search)
 }
 
 // Выбор действия
-
-
-/*	PriceList priceList;
-while (true)
+void choice(PriceList& priceList, Sort& sort, Search& search)
 {
-	choice(priceList);
-}
-return 0;*/
-
-void ChoiceTask() {
-	int n;
-	do
-	{
-		cout << "Выберите задание: " << endl;
-		cout << "1. Задание 1" << endl;
-		cout << "2. Задание 2" << endl;
-		cout << "3. Задание 3" << endl;
-		cout << "0. Выход" << endl;
-		cin >> n;
-		switch (n)
-		{
-		case 1:
-
-			break;
-		case 2:
-			break;
-		case 3:
-			break;
-		case 0:
-			break;
-		default:
-			cout << "Неверный ввод" << endl;
-			break;
-		}
-		system("PAUSE");
+	int choice;
+	cout << "1. Add data" << endl;
+	cout << "2. Print data" << endl;
+	cout << "3. Print data to file" << endl;
+	cout << "4. Read data from file" << endl;
+	cout << "5. Sort data" << endl;
+	cout << "6. Search data" << endl;
+	cout << "7. Exit" << endl;
+	cout << "Enter your choice: ";
+	cin >> choice;
+	if (choice == 1) {
 		system("cls");
-	} while (n != 0);
+		string name, firm, model, date;
+		int speed, price;
+		cout << "Enter name: ";
+		cin >> name;
+		cout << "Enter firm: ";
+		cin >> firm;
+		cout << "Enter model: ";
+		cin >> model;
+		cout << "Enter speed: ";
+		cin >> speed;
+		cout << "Enter price: ";
+		cin >> price;
+		cout << "Enter date: ";
+		cin >> date;
+		DataBase data(name, firm, model, speed, price, date);
+		priceList.add(data);
+		system("pause");
+		system("cls");
+	}
+	else if (choice == 2) {
+		system("cls");
+		priceList.print();
+		system("pause");
+		system("cls");
+	}
+	else if (choice == 3) {
+		system("cls");
+		priceList.printToFile();
+		system("pause");
+		system("cls");
+	}
+	else if (choice == 4) {
+		system("cls");
+		priceList.readFromFile();
+		priceList.print();
+		system("pause");
+		system("cls");
+	}
+	else if (choice == 5) {
+		system("cls");
+		choiceSort(priceList, sort);
+		system("pause");
+		system("cls");
+	}
+	else if (choice == 6) {
+		system("cls");
+		choiceSearch(priceList, search);
+		system("pause");
+		system("cls");
+	}
+	else if (choice == 7) {
+		return;
+	}
+	else {
+		cout << "Error! Try again!" << endl;
+	}
 }
 
 int main()
 {
-	setlocale(0, "");
+	setlocale(LC_ALL, "Russian");
+	PriceList priceList;
+	Sort sort;
+	Search search;
+	while (true) {
+		choice(priceList, sort, search);
+	}
+	return 0;
 }
