@@ -851,38 +851,38 @@ void Choice(PriceList& priceList, Sort& sort, Search& search)
 			system("pause");
 			system("cls");
 		}
-		if (choice == 2) {
+		else if (choice == 2) {
 			system("cls");
 			priceList.print();
 			system("pause");
 			system("cls");
 		}
-		if (choice == 3) {
+		else if (choice == 3) {
 			system("cls");
 			priceList.printToFile();
 			system("pause");
 			system("cls");
 		}
-		if (choice == 4) {
+		else if (choice == 4) {
 			system("cls");
 			priceList.readFromFile();
 			priceList.print();
 			system("pause");
 			system("cls");
 		}
-		if (choice == 5) {
+		else if (choice == 5) {
 			system("cls");
 			choiceSort(priceList, sort);
 			system("pause");
 			system("cls");
 		}
-		if (choice == 6) {
+		else if (choice == 6) {
 			system("cls");
 			choiceSearch(priceList, search);
 			system("pause");
 			system("cls");
 		}
-		if (choice == 7) {
+		else if (choice == 7) {
 			break;
 		}
 		else {
@@ -915,12 +915,7 @@ void thirdMain()
 	Sort sort;
 	Search search;
 	while (true) {
-		int input;
 		Choice(priceList, sort, search);
-		cout << "hui"; cin >> input;
-		if (input == 7) {
-			break;
-		}
 	}
 }
 
@@ -928,31 +923,34 @@ void thirdMain()
 int main()
 {
 	setlocale(0, "");
-	int choice;
-	cout << "1. First task" << endl;
-	cout << "2. Second task" << endl;
-	cout << "3. Third task" << endl;
-	cout << "4. Exit" << endl;
-	cout << "Enter your choice:"; cin >> choice;
 	while (true)
 	{
-		if (choice == 1) {
-			firstMain();
+		int choice;
+		cout << "1. First task" << endl;
+		cout << "2. Second task" << endl;
+		cout << "3. Third task" << endl;
+		cout << "4. Exit" << endl;
+		cout << "Enter your choice:"; cin >> choice;
+		while (true)
+		{
+			if (choice == 1) {
+				firstMain();
+			}
+			else if (choice == 2) {
+				secondMain();
+			}
+			else if (choice == 3) {
+				PriceList priceList;
+				Sort sort;
+				Search search;
+				Choice(priceList, sort, search);
+			}
+			else if (choice == 4) {
+				break;
 		}
-		else if (choice == 2) {
-			secondMain();
-		}
-		else if (choice == 3) {
-			PriceList priceList;
-			Sort sort;
-			Search search;
-			Choice(priceList, sort, search);
-		}
-		else if (choice == 4) {
-			exit(4);
-		}
-		else {
-			cout << "Error! Try again!" << endl;
+			else {
+				cout << "Error! Try again!" << endl;
+			}
 		}
 	}
 }
