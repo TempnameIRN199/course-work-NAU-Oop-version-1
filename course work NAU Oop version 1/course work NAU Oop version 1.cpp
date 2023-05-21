@@ -29,8 +29,7 @@ public:
 	}
 	DynArr(int* arr, int size) {
 		this->arr = new int[size];
-		for (int i = 0; i < size; i++)
-		{
+		for (int i = 0; i < size; i++) {
 			this->arr[i] = arr[i];
 		}
 		this->size = size;
@@ -54,26 +53,21 @@ public:
 		cout << "Enter size of array: ";
 		cin >> size;
 		arr = new int[size];
-		for (int i = 0; i < size; i++)
-		{
+		for (int i = 0; i < size; i++) {
 			cout << "Enter " << i + 1 << " element: ";
 			cin >> arr[i];
 		}
 	}
 	void Print() {
-		for (int i = 0; i < size; i++)
-		{
+		for (int i = 0; i < size; i++) {
 			cout << arr[i] << " ";
 		}
 		cout << endl;
 	}
 	void Sort() {
-		for (int i = 0; i < size; i++)
-		{
-			for (int j = 0; j < size - 1; j++)
-			{
-				if (arr[j] > arr[j + 1])
-				{
+		for (int i = 0; i < size; i++) {
+			for (int j = 0; j < size - 1; j++) {
+				if (arr[j] > arr[j + 1]) {
 					int temp = arr[j];
 					arr[j] = arr[j + 1];
 					arr[j + 1] = temp;
@@ -82,10 +76,8 @@ public:
 		}
 	}
 	void CheckSort() {
-		for (int i = 0; i < size - 1; i++)
-		{
-			if (arr[i] > arr[i + 1])
-			{
+		for (int i = 0; i < size - 1; i++) {
+			if (arr[i] > arr[i + 1]) {
 				cout << "Array is not sorted" << endl;
 				return;
 			}
@@ -100,8 +92,7 @@ public:
 			cout << "3. Sort array" << endl;
 			cout << "4. Check sort" << endl;
 			cout << "5. Exit" << endl;
-			cout << "Enter your choice: ";
-			cin >> choice;
+			cout << "Enter your choice: "; cin >> choice;
 			switch (choice)
 			{
 			case 1:
@@ -137,7 +128,6 @@ public:
 		} while (choice != 5);
 	}
 };
-
 class DynArr2
 {
 private:
@@ -150,19 +140,16 @@ public:
 	}
 	DynArr2(int** arr, int size) {
 		this->arr = new int* [size];
-		for (int i = 0; i < size; i++)
-		{
+		for (int i = 0; i < size; i++) {
 			this->arr[i] = new int[size];
-			for (int j = 0; j < size; j++)
-			{
+			for (int j = 0; j < size; j++) {
 				this->arr[i][j] = arr[i][j];
 			}
 		}
 		this->size = size;
 	}
 	~DynArr2() {
-		for (int i = 0; i < size; i++)
-		{
+		for (int i = 0; i < size; i++) {
 			delete[] arr[i];
 		}
 		delete[] arr;
@@ -183,33 +170,26 @@ public:
 		cout << "Enter size of array: ";
 		cin >> size;
 		arr = new int* [size];
-		for (int i = 0; i < size; i++)
-		{
+		for (int i = 0; i < size; i++) {
 			arr[i] = new int[size];
-			for (int j = 0; j < size; j++)
-			{
+			for (int j = 0; j < size; j++) {
 				cout << "Enter " << i + 1 << " element: ";
 				cin >> arr[i][j];
 			}
 		}
 	}
 	void Print() {
-		for (int i = 0; i < size; i++)
-		{
-			for (int j = 0; j < size; j++)
-			{
+		for (int i = 0; i < size; i++) {
+			for (int j = 0; j < size; j++) {
 				cout << arr[i][j] << " ";
 			}
 			cout << endl;
 		}
 	}
 	void Sort() {
-		for (int i = 0; i < size; i++)
-		{
-			for (int j = 0; j < size - 1; j++)
-			{
-				if (arr[j][0] < arr[j + 1][0])
-				{
+		for (int i = 0; i < size; i++) {
+			for (int j = 0; j < size - 1; j++) {
+				if (arr[j][0] < arr[j + 1][0]) {
 					int* temp = arr[j];
 					arr[j] = arr[j + 1];
 					arr[j + 1] = temp;
@@ -218,10 +198,8 @@ public:
 		}
 	}
 	void CheckSort() {
-		for (int i = 0; i < size - 1; i++)
-		{
-			if (arr[i][0] < arr[i + 1][0])
-			{
+		for (int i = 0; i < size - 1; i++) {
+			if (arr[i][0] < arr[i + 1][0]) {
 				cout << "Array is not sorted" << endl;
 				return;
 			}
@@ -236,8 +214,7 @@ public:
 			cout << "3. Sort array" << endl;
 			cout << "4. Check sort" << endl;
 			cout << "5. Exit" << endl;
-			cout << "Enter your choice: ";
-			cin >> choice;
+			cout << "Enter your choice: "; cin >> choice;
 			switch (choice)
 			{
 			case 1:
@@ -273,7 +250,6 @@ public:
 		} while (choice != 5);
 	}
 };
-
 // Класс базы данных
 class Struct
 {
@@ -346,7 +322,6 @@ public:
 			lhs.date == rhs.date);
 	}
 };
-
 // Класс прайс-лист
 class FileHand
 {
@@ -362,8 +337,7 @@ public:
 	}
 	void print() {
 		cout << "Name" << setw(15) << "Firm" << setw(15) << "Model" << setw(15) << "Speed" << setw(15) << "Price" << setw(15) << "Date" << endl;
-		for (int i = 0; i < list.size(); i++)
-		{
+		for (int i = 0; i < list.size(); i++) {
 			cout << list[i].getName() << setw(15) << list[i].getFirm() << setw(15) << list[i].getModel() << setw(15) << list[i].getSpeed() << setw(15) << list[i].getPrice() << setw(15) << list[i].getDate() << endl;
 		}
 	}
@@ -418,8 +392,7 @@ public:
 			istringstream iss(line);
 			string name, firm, model, date;
 			int speed, price;
-			if (!(iss >> name >> firm >> model >> speed >> price >> date))
-			{
+			if (!(iss >> name >> firm >> model >> speed >> price >> date)) {
 				continue;
 			}
 			Struct db(name, firm, model, speed, price, date);
@@ -431,15 +404,13 @@ public:
 		fin.close();
 	}
 };
-
 // Класс сортировка
 class Sort
 {
 private:
 	vector<Struct> list;
 public:
-	vector<Struct> getList()
-	{
+	vector<Struct> getList() {
 		return this->list;
 	}
 	Sort() {}
@@ -448,12 +419,9 @@ public:
 		list.push_back(data);
 	}
 	// Сортировка по возрастанию скорост
-	void sortSpeed()
-	{
-		for (int i = 0; i < list.size(); i++)
-		{
-			for (int j = 0; j < list.size() - 1; j++)
-			{
+	void sortSpeed() {
+		for (int i = 0; i < list.size(); i++) {
+			for (int j = 0; j < list.size() - 1; j++) {
 				if (list[j].getSpeed() > list[j + 1].getSpeed()) {
 					swap(list[j], list[j + 1]);
 				}
@@ -462,10 +430,8 @@ public:
 	}
 	// Сортировка по возрастанию цены
 	void sortPrice() {
-		for (int i = 0; i < list.size(); i++)
-		{
-			for (int j = 0; j < list.size() - 1; j++)
-			{
+		for (int i = 0; i < list.size(); i++) {
+			for (int j = 0; j < list.size() - 1; j++) {
 				if (list[j].getPrice() > list[j + 1].getPrice()) {
 					swap(list[j], list[j + 1]);
 				}
@@ -474,10 +440,8 @@ public:
 	}
 	// Сортировка по возрастанию даты
 	void sortDate() {
-		for (int i = 0; i < list.size(); i++)
-		{
-			for (int j = 0; j < list.size() - 1; j++)
-			{
+		for (int i = 0; i < list.size(); i++) {
+			for (int j = 0; j < list.size() - 1; j++) {
 				if (list[j].getDate() > list[j + 1].getDate()) {
 					swap(list[j], list[j + 1]);
 				}
@@ -485,12 +449,9 @@ public:
 		}
 	}
 	// Сортировка по имени в алфавитном порядке
-	void sortName()
-	{
-		for (int i = 0; i < list.size(); i++)
-		{
-			for (int j = 0; j < list.size() - 1; j++)
-			{
+	void sortName() {
+		for (int i = 0; i < list.size(); i++) {
+			for (int j = 0; j < list.size() - 1; j++) {
 				if (list[j].getName() > list[j + 1].getName()) {
 					swap(list[j], list[j + 1]);
 				}
@@ -498,12 +459,9 @@ public:
 		}
 	}
 	// Сортировка по фирме в алфавитном порядке
-	void sortFirm()
-	{
-		for (int i = 0; i < list.size(); i++)
-		{
-			for (int j = 0; j < list.size() - 1; j++)
-			{
+	void sortFirm() {
+		for (int i = 0; i < list.size(); i++) {
+			for (int j = 0; j < list.size() - 1; j++) {
 				if (list[j].getFirm() > list[j + 1].getFirm()) {
 					swap(list[j], list[j + 1]);
 				}
@@ -511,12 +469,9 @@ public:
 		}
 	}
 	// Сортировка по модели в алфавитном порядке
-	void sortModel()
-	{
-		for (int i = 0; i < list.size(); i++)
-		{
-			for (int j = 0; j < list.size() - 1; j++)
-			{
+	void sortModel() {
+		for (int i = 0; i < list.size(); i++) {
+			for (int j = 0; j < list.size() - 1; j++) {
 				if (list[j].getModel() > list[j + 1].getModel()) {
 					swap(list[j], list[j + 1]);
 				}
@@ -525,10 +480,8 @@ public:
 	}
 	// Сортировка по спаду скорости
 	void sortSpeedDown() {
-		for (int i = 0; i < list.size(); i++)
-		{
-			for (int j = 0; j < list.size() - 1; j++)
-			{
+		for (int i = 0; i < list.size(); i++) {
+			for (int j = 0; j < list.size() - 1; j++) {
 				if (list[j].getSpeed() < list[j + 1].getSpeed()) {
 					swap(list[j], list[j + 1]);
 				}
@@ -537,8 +490,7 @@ public:
 	}
 	void print() {
 		cout << "Name" << setw(15) << "Firm" << setw(15) << "Model" << setw(15) << "Speed" << setw(15) << "Price" << setw(15) << "Date" << endl;
-		for (int i = 0; i < list.size(); i++)
-		{
+		for (int i = 0; i < list.size(); i++) {
 			cout << list[i].getName() << setw(15) << list[i].getFirm() << setw(15) << list[i].getModel() << setw(15) << list[i].getSpeed() << setw(15) << list[i].getPrice() << setw(15) << list[i].getDate() << endl;
 		}
 	}
@@ -546,7 +498,6 @@ public:
 		list.clear();
 	}
 };
-
 // класс поиска данных в базе за заданными параметрами
 class Search
 {
@@ -567,7 +518,7 @@ private:
 				string line;
 				while (getline(file, line)) {
 					if (line.find(name) != string::npos) {
-						cout << line << std::endl;
+						cout << line << endl;
 					}
 				}
 				file.close();
@@ -582,7 +533,7 @@ private:
 				string line;
 				while (getline(file, line)) {
 					if (line.find(firm) != string::npos) {
-						cout << line << std::endl;
+						cout << line << endl;
 					}
 				}
 				file.close();
@@ -597,7 +548,7 @@ private:
 				string line;
 				while (getline(file, line)) {
 					if (line.find(model) != string::npos) {
-						cout << line << std::endl;
+						cout << line << endl;
 					}
 				}
 				file.close();
@@ -612,7 +563,7 @@ private:
 				string line;
 				while (getline(file, line)) {
 					if (line.find(to_string(speed)) != string::npos) {
-						cout << line << std::endl;
+						cout << line << endl;
 					}
 				}
 				file.close();
@@ -627,7 +578,7 @@ private:
 				string line;
 				while (getline(file, line)) {
 					if (line.find(to_string(price)) != string::npos) {
-						cout << line << std::endl;
+						cout << line << endl;
 					}
 				}
 				file.close();
@@ -642,7 +593,7 @@ private:
 				string line;
 				while (getline(file, line)) {
 					if (line.find(date) != string::npos) {
-						cout << line << std::endl;
+						cout << line << endl;
 					}
 				}
 				file.close();
@@ -652,10 +603,8 @@ private:
 			}
 		}
 };
-
 // Выбор данных для сортировки 
-void choiceSort(FileHand& priceList, Sort& sort)
-{
+void choiceSort(FileHand& priceList, Sort& sort) {
 	int choice;
 	cout << "1. Sort by speed" << endl;
 	cout << "2. Sort by price" << endl;
@@ -669,10 +618,8 @@ void choiceSort(FileHand& priceList, Sort& sort)
 	cin >> choice;
 	switch (choice)
 	{
-	case 1:
-	{
-		for (int i = 0; i < priceList.getList().size(); i++)
-		{
+	case 1: {
+		for (int i = 0; i < priceList.getList().size(); i++) {
 			sort.add(priceList.getList()[i]);
 		}
 		sort.sortSpeed();
@@ -680,10 +627,8 @@ void choiceSort(FileHand& priceList, Sort& sort)
 		sort.clear();
 		break;
 	}
-	case 2:
-	{
-		for (int i = 0; i < priceList.getList().size(); i++)
-		{
+	case 2: {
+		for (int i = 0; i < priceList.getList().size(); i++) {
 			sort.add(priceList.getList()[i]);
 		}
 		sort.sortPrice();
@@ -691,10 +636,8 @@ void choiceSort(FileHand& priceList, Sort& sort)
 		sort.clear();
 		break;
 	}
-	case 3:
-	{
-		for (int i = 0; i < priceList.getList().size(); i++)
-		{
+	case 3: {
+		for (int i = 0; i < priceList.getList().size(); i++) {
 			sort.add(priceList.getList()[i]);
 		}
 		sort.sortDate();
@@ -702,8 +645,7 @@ void choiceSort(FileHand& priceList, Sort& sort)
 		sort.clear();
 		break;
 	}
-	case 4:
-	{
+	case 4: {
 		for (int i = 0; i < priceList.getList().size(); i++) {
 			sort.add(priceList.getList()[i]);
 		}
@@ -712,8 +654,7 @@ void choiceSort(FileHand& priceList, Sort& sort)
 		sort.clear();
 		break;
 	}
-	case 5:
-	{
+	case 5: {
 		for (int i = 0; i < priceList.getList().size(); i++) {
 			sort.add(priceList.getList()[i]);
 		}
@@ -722,8 +663,7 @@ void choiceSort(FileHand& priceList, Sort& sort)
 		sort.clear();
 		break;
 	}
-	case 6:
-	{
+	case 6: {
 		for (int i = 0; i < priceList.getList().size(); i++) {
 			sort.add(priceList.getList()[i]);
 		}
@@ -732,8 +672,7 @@ void choiceSort(FileHand& priceList, Sort& sort)
 		sort.clear();
 		break;
 	}
-	case 7:
-	{
+	case 7: {
 		for (int i = 0; i < priceList.getList().size(); i++) {
 			sort.add(priceList.getList()[i]);
 		}
@@ -759,127 +698,56 @@ void choiceSearch(FileHand& priceList, Search& search) {
 	cout << "6. Search by date" << endl;
 	cout << "7. Exit" << endl;
 	cout << "Enter your choice: "; cin >> choice;
-	if (choice == 1) {
-		
+	switch (choice)
+	{
+	case 1: {
+		string name;
+		cout << "Enter name: ";
+		cin >> name;
+		search.findDataByName(name);
+		break;
 	}
-	else if (choice == 2) {
+	case 2: {
 		string firm;
 		cout << "Enter firm: ";
 		cin >> firm;
 		search.findDataByFirm(firm);
+		break;
 	}
-	else if (choice == 3) {
+	case 3: {
 		string model;
 		cout << "Enter model: ";
 		cin >> model;
 		search.findDataByModel(model);
+		break;
 	}
-	else if (choice == 4) {
+	case 4: {
 		int speed;
 		cout << "Enter speed: ";
 		cin >> speed;
 		search.findDataBySpeed(speed);
+		break;
 	}
-	else if (choice == 5) {
+	case 5: {
 		int price;
 		cout << "Enter price: ";
 		cin >> price;
 		search.findDataByPrice(price);
+		break;
 	}
-	else if (choice == 6) {
+	case 6: {
 		string date;
 		cout << "Enter date: ";
 		cin >> date;
 		search.findDataByDate(date);
+		break;
 	}
-	else if (choice == 7) {
+	case 7: {
 		return;
 	}
-	else {
-		cout << "Error! Try again!" << endl;
+	default:
+		break;
 	}
-}
-
-void Choice(FileHand& priceList, Sort& sort, Search& search) {
-	int choice;
-	cout << "1. Add data" << endl;
-	cout << "2. Print data" << endl;
-	cout << "3. Print data to file" << endl;
-	cout << "4. Read data from file" << endl;
-	cout << "5. Sort data" << endl;
-	cout << "6. Search data" << endl;
-	cout << "7. Exit" << endl;
-	cout << "Enter your choice: "; cin >> choice;
-	do
-	{
-		switch (choice)
-		{
-		case 1: {
-			system("cls");
-			string name, firm, model, date;
-			int speed, price;
-			cout << "Enter name: ";
-			cin >> name;
-			cout << "Enter firm: ";
-			cin >> firm;
-			cout << "Enter model: ";
-			cin >> model;
-			cout << "Enter speed: ";
-			cin >> speed;
-			cout << "Enter price: ";
-			cin >> price;
-			cout << "Enter date: ";
-			cin >> date;
-			Struct data(name, firm, model, speed, price, date);
-			priceList.add(data);
-			system("pause");
-			system("cls");
-			break;
-		}
-		case 2: {
-			system("cls");
-			priceList.print();
-			system("pause");
-			system("cls");
-			break;
-		}
-		case 3: {
-			system("cls");
-			priceList.printToFile();
-			system("pause");
-			system("cls");
-			break;
-		}
-		case 4: {
-			system("cls");
-			priceList.readFromFile();
-			priceList.print();
-			system("pause");
-			system("cls");
-			break;
-		}
-		case 5: {
-			system("cls");
-			choiceSort(priceList, sort);
-			system("pause");
-			system("cls");
-			break;
-		}
-		case 6: {
-			system("cls");
-			choiceSearch(priceList, search);
-			system("pause");
-			system("cls");
-			break;
-		}
-		case 7: {
-			system("cls");
-			break;
-		}
-		default:
-			break;
-		}
-	} while (choice != 7);
 }
 
 void firstMain() {
