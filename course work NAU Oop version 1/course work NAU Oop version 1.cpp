@@ -1,5 +1,4 @@
 ﻿#define _CRT_SECURE_NO_WARNINGS
-#define _SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING
 #include <iostream>
 #include <istream>
 #include <ctime>
@@ -276,7 +275,7 @@ public:
 };
 
 // Класс базы данных
-class DataBase
+class Struct
 {
 private:
 	string name;
@@ -286,7 +285,7 @@ private:
 	int price;
 	string date;
 public:
-	DataBase() {
+	Struct() {
 		name = " ";
 		firm = " ";
 		model = " ";
@@ -294,7 +293,7 @@ public:
 		price = 0;
 		date = " ";
 	}
-	DataBase(string name, string firm, string model, int speed, int price, string date) {
+	Struct(string name, string firm, string model, int speed, int price, string date) {
 		this->name = name;
 		this->firm = firm;
 		this->model = model;
@@ -302,7 +301,6 @@ public:
 		this->price = price;
 		this->date = date;
 	}
-	~DataBase() {}
 	void setName(string name) {
 		this->name = name;
 	}
@@ -339,7 +337,7 @@ public:
 	string getDate() {
 		return date;
 	}
-	friend bool operator==(const DataBase& lhs, const DataBase& rhs) {
+	friend bool operator==(const Struct& lhs, const Struct& rhs) {
 		return (lhs.name == rhs.name &&
 			lhs.firm == rhs.firm &&
 			lhs.model == rhs.model &&
@@ -350,17 +348,16 @@ public:
 };
 
 // Класс прайс-лист
-class PriceList
+class FileHand
 {
 private:
-	vector<DataBase> list;
+	vector<Struct> list;
 public:
-	vector<DataBase> getList() {
+	vector<Struct> getList() {
 		return this->list;
 	}
-	PriceList() {}
-	~PriceList() {}
-	void add(DataBase data) {
+	FileHand() {}
+	void add(Struct data) {
 		list.push_back(data);
 	}
 	void print() {
@@ -404,13 +401,13 @@ public:
 		fout.close();
 	}
 
-	void printHeader() {
+	void printHeader() { // Вывод заголовка в файл
 		ofstream fout;
 		fout.open("PriceList.txt", ios::app);
 		fout << str << endl;
 		fout.close();
 	}
-	void readFromFile() {
+	void readFromFile() { // Считывание данных из файла
 		ifstream fin("PriceList.txt");
 		if (!fin.is_open()) {
 			cout << "Failed to open file!" << endl;
@@ -425,7 +422,7 @@ public:
 			{
 				continue;
 			}
-			DataBase db(name, firm, model, speed, price, date);
+			Struct db(name, firm, model, speed, price, date);
 			if (find(list.begin(), list.end(), db) == list.end()) {
 				list.push_back(db);
 			}
@@ -439,15 +436,15 @@ public:
 class Sort
 {
 private:
-	vector<DataBase> list;
+	vector<Struct> list;
 public:
-	vector<DataBase> getList()
+	vector<Struct> getList()
 	{
 		return this->list;
 	}
 	Sort() {}
 	~Sort() {}
-	void add(DataBase data) {
+	void add(Struct data) {
 		list.push_back(data);
 	}
 	// Сортировка по возрастанию скорост
@@ -554,14 +551,14 @@ public:
 class Search
 {
 private:
-	vector<DataBase> list;
+	vector<Struct> list;
 	public:
 		Search() {}
 		~Search() {}
-		void add(DataBase data) {
+		void add(Struct data) {
 			list.push_back(data);
 		}
-		vector<DataBase> getList() {
+		vector<Struct> getList() {
 			return this->list;
 		}
 		void findDataByName(string name) {
@@ -656,29 +653,8 @@ private:
 		}
 };
 
-// класс для меню
-class Menu
-{
-private:
-	DynArr dynArr;
-	DynArr2 dynarr2;
-	PriceList priceList;
-	Sort sort;
-	Search search;
-
-public:
-	Menu() {}
-	void MenuDynArr() {
-		int choice;
-		cout << "1. Add data" << endl;
-		cout << "2. Print data" << endl;
-		cout << "3. Exit" << endl;
-
-	}
-};
-
-// Выбор данных для сортировки
-void choiceSort(PriceList& priceList, Sort& sort)
+// Выбор данных для сортировки 
+void choiceSort(FileHand& priceList, Sort& sort)
 {
 	int choice;
 	cout << "1. Sort by speed" << endl;
@@ -691,7 +667,10 @@ void choiceSort(PriceList& priceList, Sort& sort)
 	cout << "8. Exit" << endl;
 	cout << "Enter your choice: ";
 	cin >> choice;
-	if (choice == 1) {
+	switch (choice)
+	{
+	case 1:
+	{
 		for (int i = 0; i < priceList.getList().size(); i++)
 		{
 			sort.add(priceList.getList()[i]);
@@ -699,8 +678,10 @@ void choiceSort(PriceList& priceList, Sort& sort)
 		sort.sortSpeed();
 		sort.print();
 		sort.clear();
+		break;
 	}
-	else if (choice == 2) {
+	case 2:
+	{
 		for (int i = 0; i < priceList.getList().size(); i++)
 		{
 			sort.add(priceList.getList()[i]);
@@ -708,8 +689,10 @@ void choiceSort(PriceList& priceList, Sort& sort)
 		sort.sortPrice();
 		sort.print();
 		sort.clear();
+		break;
 	}
-	else if (choice == 3) {
+	case 3:
+	{
 		for (int i = 0; i < priceList.getList().size(); i++)
 		{
 			sort.add(priceList.getList()[i]);
@@ -717,50 +700,56 @@ void choiceSort(PriceList& priceList, Sort& sort)
 		sort.sortDate();
 		sort.print();
 		sort.clear();
+		break;
 	}
-	else if (choice == 4) {
+	case 4:
+	{
 		for (int i = 0; i < priceList.getList().size(); i++) {
 			sort.add(priceList.getList()[i]);
 		}
 		sort.sortName();
 		sort.print();
 		sort.clear();
+		break;
 	}
-	else if (choice == 5) {
+	case 5:
+	{
 		for (int i = 0; i < priceList.getList().size(); i++) {
 			sort.add(priceList.getList()[i]);
 		}
 		sort.sortFirm();
 		sort.print();
 		sort.clear();
+		break;
 	}
-	else if (choice == 6) {
+	case 6:
+	{
 		for (int i = 0; i < priceList.getList().size(); i++) {
 			sort.add(priceList.getList()[i]);
 		}
 		sort.sortModel();
 		sort.print();
 		sort.clear();
+		break;
 	}
-	else if (choice == 7) {
+	case 7:
+	{
 		for (int i = 0; i < priceList.getList().size(); i++) {
 			sort.add(priceList.getList()[i]);
 		}
 		sort.sortSpeedDown();
 		sort.print();
 		sort.clear();
+		break;
 	}
-	else if (choice == 8) {
-		return;
-	}
-	else {
-		cout << "Error! Try again!" << endl;
+	case 8:
+		break;
+	default:
+		break;
 	}
 }
-
 // Выбор данных для поиска
-void choiceSearch(PriceList& priceList, Search& search)
-{
+void choiceSearch(FileHand& priceList, Search& search) {
 	int choice;
 	cout << "1. Search by name" << endl;
 	cout << "2. Search by firm" << endl;
@@ -769,13 +758,9 @@ void choiceSearch(PriceList& priceList, Search& search)
 	cout << "5. Search by price" << endl;
 	cout << "6. Search by date" << endl;
 	cout << "7. Exit" << endl;
-	cout << "Enter your choice: ";
-	cin >> choice;
+	cout << "Enter your choice: "; cin >> choice;
 	if (choice == 1) {
-		string name;
-		cout << "Enter name: ";
-		cin >> name;
-		search.findDataByName(name);
+		
 	}
 	else if (choice == 2) {
 		string firm;
@@ -815,22 +800,21 @@ void choiceSearch(PriceList& priceList, Search& search)
 	}
 }
 
-// Выбор действия
-void Choice(PriceList& priceList, Sort& sort, Search& search)
-{
-	while (true)
+void Choice(FileHand& priceList, Sort& sort, Search& search) {
+	int choice;
+	cout << "1. Add data" << endl;
+	cout << "2. Print data" << endl;
+	cout << "3. Print data to file" << endl;
+	cout << "4. Read data from file" << endl;
+	cout << "5. Sort data" << endl;
+	cout << "6. Search data" << endl;
+	cout << "7. Exit" << endl;
+	cout << "Enter your choice: "; cin >> choice;
+	do
 	{
-		int choice;
-		cout << "1. Add data" << endl;
-		cout << "2. Print data" << endl;
-		cout << "3. Print data to file" << endl;
-		cout << "4. Read data from file" << endl;
-		cout << "5. Sort data" << endl;
-		cout << "6. Search data" << endl;
-		cout << "7. Exit" << endl;
-		cout << "Enter your choice: ";
-		cin >> choice;
-		if (choice == 1) {
+		switch (choice)
+		{
+		case 1: {
 			system("cls");
 			string name, firm, model, date;
 			int speed, price;
@@ -846,111 +830,183 @@ void Choice(PriceList& priceList, Sort& sort, Search& search)
 			cin >> price;
 			cout << "Enter date: ";
 			cin >> date;
-			DataBase data(name, firm, model, speed, price, date);
+			Struct data(name, firm, model, speed, price, date);
 			priceList.add(data);
 			system("pause");
 			system("cls");
+			break;
 		}
-		else if (choice == 2) {
+		case 2: {
 			system("cls");
 			priceList.print();
 			system("pause");
 			system("cls");
+			break;
 		}
-		else if (choice == 3) {
+		case 3: {
 			system("cls");
 			priceList.printToFile();
 			system("pause");
 			system("cls");
+			break;
 		}
-		else if (choice == 4) {
+		case 4: {
 			system("cls");
 			priceList.readFromFile();
 			priceList.print();
 			system("pause");
 			system("cls");
+			break;
 		}
-		else if (choice == 5) {
+		case 5: {
 			system("cls");
 			choiceSort(priceList, sort);
 			system("pause");
 			system("cls");
+			break;
 		}
-		else if (choice == 6) {
+		case 6: {
 			system("cls");
 			choiceSearch(priceList, search);
 			system("pause");
 			system("cls");
-		}
-		else if (choice == 7) {
 			break;
 		}
-		else {
-			cout << "Error! Try again!" << endl;
+		case 7: {
+			system("cls");
+			break;
 		}
-	}
+		default:
+			break;
+		}
+	} while (choice != 7);
 }
 
-void firstMain() // функцию работы с классом DynArr
-{
-	setlocale(LC_ALL, "Russian");
+void firstMain() {
 	DynArr dynArr;
-	while (true) {
-		dynArr.Menu();
-	}
+	dynArr.Menu();
 }
 
-void secondMain() // функцию работы с классом DynArr2
-{
+void secondMain() {
 	DynArr2 dynArr2;
-	while (true) {
-		dynArr2.Menu();
-	}
+	dynArr2.Menu();
 }
 
-void thirdMain()
-{
-	setlocale(LC_ALL, "Russian");
-	PriceList priceList;
+void thirdMain() {
+	FileHand priceList;
 	Sort sort;
 	Search search;
-	while (true) {
-		Choice(priceList, sort, search);
-	}
-}
-
-
-int main()
-{
-	setlocale(0, "");
-	while (true)
+	int choice; 
+	do
 	{
-		int choice;
+		cout << "1. Add data" << endl;
+		cout << "2. Print data" << endl;
+		cout << "3. Print data to file" << endl;
+		cout << "4. Read data from file" << endl;
+		cout << "5. Sort data" << endl;
+		cout << "6. Search data" << endl;
+		cout << "7. Exit" << endl;
+		cout << "Enter your choice: "; cin >> choice;
+		switch (choice)
+		{
+		case 1: {
+			system("cls");
+			string name, firm, model, date;
+			int speed, price;
+			cout << "Enter name: ";
+			cin >> name;
+			cout << "Enter firm: ";
+			cin >> firm;
+			cout << "Enter model: ";
+			cin >> model;
+			cout << "Enter speed: ";
+			cin >> speed;
+			cout << "Enter price: ";
+			cin >> price;
+			cout << "Enter date: ";
+			cin >> date;
+			Struct data(name, firm, model, speed, price, date);
+			priceList.add(data);
+			system("pause");
+			system("cls");
+			break;
+		}
+		case 2: {
+			system("cls");
+			priceList.print();
+			system("pause");
+			system("cls");
+			break;
+		}
+		case 3: {
+			system("cls");
+			priceList.printToFile();
+			system("pause");
+			system("cls");
+			break;
+		}
+		case 4: {
+			system("cls");
+			priceList.readFromFile();
+			priceList.print();
+			system("pause");
+			system("cls");
+			break;
+		}
+		case 5: {
+			system("cls");
+			choiceSort(priceList, sort);
+			system("pause");
+			system("cls");
+			break;
+		}
+		case 6: {
+			system("cls");
+			choiceSearch(priceList, search);
+			system("pause");
+			system("cls");
+			break;
+		}
+		default:
+			break;
+		}
+	} while (choice != 7);
+
+}
+int main() {
+	int choice;
+	do
+	{
 		cout << "1. First task" << endl;
 		cout << "2. Second task" << endl;
 		cout << "3. Third task" << endl;
 		cout << "4. Exit" << endl;
 		cout << "Enter your choice:"; cin >> choice;
-		while (true)
+		switch (choice)
 		{
-			if (choice == 1) {
-				firstMain();
-			}
-			else if (choice == 2) {
-				secondMain();
-			}
-			else if (choice == 3) {
-				PriceList priceList;
-				Sort sort;
-				Search search;
-				Choice(priceList, sort, search);
-			}
-			else if (choice == 4) {
-				break;
+		case 1: {
+			system("cls");
+			firstMain();
+			system("pause");
+			system("cls");
+			break;
 		}
-			else {
-				cout << "Error! Try again!" << endl;
-			}
+		case 2: {
+			system("cls");
+			secondMain();
+			system("pause");
+			system("cls");
+			break;
 		}
-	}
+		case 3: {
+			system("cls");
+			thirdMain();
+			system("pause");
+			system("cls");
+			break;
+		}
+		default:
+			break;
+		}
+	} while (choice != 4);
 }
